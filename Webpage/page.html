@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Aviation</title>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript">
+    var result;
+    var newDoc = document.implementation.createHTMLDocument("MyCopy");
+    var app;
+
+    app.use(function(req, res, next)
+    {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+      next();
+    });
+    function xmlparser() {
+        $.ajax({
+            type: "GET",
+            url: "http://www.dronesimulation.co.uk/events/evlbs.pl",
+            dataType: "HTML",
+            success: function (html) {
+
+                result = html;
+                newDoc = html;
+
+                ParsedElements = $(html);
+                Console.log(ParsedElements);
+
+                document.myform.result1.value = result;
+                document.myform.result2.value = ParsedElements;
+
+            },
+            error: function (html) {
+                alert(html.status + ' ' + html.statusText);
+            }
+        });
+    }
+</script>
+</head>
+<body>
+<p id="details"></p>
+<form name="myform">
+    <input type="button" name="clickme" value="Click here to show the city name" onclick=xmlparser() />
+    <!--T <input type="textarea" name="result1" readonly="true"/>  -->
+    <textarea name="result1" rows="10" cols="70"> </textarea>
+
+
+    <textarea name="result2" rows="10" cols="70"> </textarea>
+
+</form>
+
+</body>
+</html>
